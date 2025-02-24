@@ -1,0 +1,20 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "include": [
+    "env.d.ts",
+    "src/**/*",
+    "src/**/*.vue",
+    "tailwind.config.ts",
+    "types"
+  ],
+  "exclude": ["src/**/__tests__/*"],
+  "compilerOptions": {
+    "allowJs": true,
+    "composite": true,
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "moduleResolution": "node"
+  }
+}
