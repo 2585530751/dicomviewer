@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ncu.imagesystem.mapper.SeriesMapper">
+
+    <resultMap id="ImageSetMap" type="com.ncu.imagesystem.dto.ImageSetDTO">
+        <association property="series" javaType="com.ncu.imagesystem.entity.SeriesEntity">
+            <id column="series_id" property="seriesId" />
+            <result column="series_name" property="seriesName" />
+            <result column="series_equipment" property="seriesEquipment" />
+            <result column="series_format" property="seriesFormat" />
+            <result column="series_path" property="seriesPath" />
+            <result column="series_preview_path" property="seriesPreviewPath" />
+            <result column="series_count" property="seriesCount" />
+            <result column="series_check_part" property="seriesCheckPart" />
+            <result column="series_check_time" property="seriesCheckTime" />
+            <result column="patient_id" property="patientId" />
+            <result column="patient_name" property="patientName" />
+            <result column="creator_id" property="creatorId" />
+            <result column="creator_name" property="creatorName" />
+            <result column="create_time" property="createTime" />
+            <result column="series_status" property="seriesStatus" />
+            <result column="is_deleted" property="isDeleted" />
+        </association>
+        <association property="doctor" javaType="com.ncu.imagesystem.entity.DoctorEntity">
+            <id column="doctor_id" property="doctorId" />
+            <result column="doctor_name" property="doctorName" />
+            <result column="phone_number" property="phoneNumber" />
+            <result column="email" property="email" />
+            <result column="org_id" property="orgId" />
+            <result column="org_name" property="orgName" />
+            <result column="introduction" property="introduction" />
+            <result column="speciality" property="speciality" />
+            <result column="level" property="level" />
+            <result column="user_id" property="userId" />
+        </association>
+        <collection property="singleImageList" ofType="com.ncu.imagesystem.entity.ImageEntity" column="series_id" select="getSingleImageById">
+            <id column="image_id" property="imageId"/>
+            <result column="image_name" property="imageName" />
+            <result column="image_path" property="imagePath" />
+            <result column="type" property="type" />
+            <result column="series_id" property="seriesId"/>
+            <result column="image_id_rel" property="imageIdRel" />
+            <result column="operate_id" property="operateId" />
+            <result column="operate_name" property="operateName" />
+            <result column="operate_time" property="operateTime" />
+            <result column="imageStatus" property="imageStatus" />
+            <result column="image_equipment" property="imageEquipment" />
+            <result column="image_format" property="imageFormat" />
+            <result column="image_desc" property="imageDesc" />
+            <result column="image_check_part" property="imageCheckPart" />
+            <result column="image_check_time" property="imageCheckTime" />
+            <result column="patient_id" property="patientId" />
+            <result column="patient_name" property="patientName" />
+            <result column="is_deleted" property="isDeleted" />
+        </collection>
+    </resultMap>
+
+    <select id="getSingleImageById" resultType="com.ncu.imagesystem.entity.ImageEntity">
+        select * from image where series_id = #{id} and is_deleted = 0
+    </select>
+
+    <select id="getImageSetPageByQuery" parameterType="com.ncu.imagesystem.dto.ImagePageQuery" resultMap="ImageSetMap">
+        select i.*,d.* from series_doctor_relation idr
+        left join series i on idr.series_id = i.series_id
+        left join doctor d on idr.user_id = d.user_id
+        where idr.user_id = #{userId} and i.is_deleted = 0
+        <if test="patientName != null">
+            and i.patient_name like #{patientName}
+        </if>
+        order by i.create_time desc
+        limit #{current}, #{pageSize}
+    </select>
+
+    <select id="count" parameterType="com.ncu.imagesystem.dto.ImagePageQuery" resultType="Long">
+        select count(1) from series_doctor_relation idr
+        left join series i on idr.series_id = i.series_id
+        where idr.user_id = #{userId} and i.is_deleted = 0
+        <if test="patientName != null">
+            and i.patient_name like #{patientName}
+        </if>
+    </select>
+</mapper>

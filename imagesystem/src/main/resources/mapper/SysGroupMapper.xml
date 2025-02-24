@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ncu.imagesystem.mapper.SysGroupMapper">
+
+    <resultMap id="BaseResultMap" type="com.ncu.imagesystem.entity.SysGroupEntity">
+        <result column="group_id" property="groupId" />
+        <result column="group_parent_id" property="groupParentId" />
+        <result column="group_parent_name" property="groupParentName" />
+        <result column="group_name" property="groupName" />
+        <result column="create_time" property="createTime" />
+        <result column="description" property="description" />
+    </resultMap>
+
+    <select id="getGroupByUserId" parameterType="Integer" resultMap="BaseResultMap">
+        select sg.group_id,sg.group_parent_id,sg.group_parent_name,sg.group_name,
+        sg.create_time,sg.description
+        from sys_user_group_relation sugr left join sys_group sg on sugr.group_id = sg.group_id
+        where sugr.user_id = #{userId}
+    </select>
+
+</mapper>

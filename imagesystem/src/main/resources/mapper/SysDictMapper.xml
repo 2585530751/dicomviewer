@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ncu.imagesystem.mapper.SysDictMapper">
+
+    <resultMap id="BaseResultMap" type="com.ncu.imagesystem.dto.SysDictItemDTO">
+        <result column="dict_id" property="dictId" />
+        <result column="dict_name" property="dictName" />
+        <result column="dict_code" property="dictCode" />
+        <result column="dict_item_id" property="dictItemId" />
+        <result column="dict_item_text" property="dictItemText" />
+        <result column="dict_item_value" property="dictItemValue" />
+        <result column="sort_order" property="sortOrder" />
+    </resultMap>
+
+    <select id="getDictByDictId" parameterType="Integer" resultMap="BaseResultMap">
+        select sd.dict_id,dict_name,dict_code,dict_item_id,dict_item_text,dict_item_value,sort_order
+        from sys_dict sd left join sys_dict_item sdi on sd.dict_id = sdi.dict_id
+        where is_deleted = 0 and status = 1 and sd.dict_id = #{dictId}
+        order by sort_order asc
+    </select>
+
+    <select id="getDictByDictCode" parameterType="String" resultMap="BaseResultMap">
+        select sd.dict_id,dict_name,dict_code,dict_item_id,dict_item_text,dict_item_value,sort_order
+        from sys_dict sd left join sys_dict_item sdi on sd.dict_id = sdi.dict_id
+        where is_deleted = 0 and status = 1 and sd.dict_code = #{dictCode}
+        order by sort_order asc
+    </select>
+
+    <select id="getAllDict" resultMap="BaseResultMap">
+        select sd.dict_id,dict_name,dict_code,dict_item_id,dict_item_text,dict_item_value,sort_order
+        from sys_dict sd left join sys_dict_item sdi on sd.dict_id = sdi.dict_id
+        where is_deleted = 0 and status = 1
+        order by dict_id desc , sort_order asc
+    </select>
+
+    <!--根据性别和班级名称查询-->
+    <!--    <select id="getUsers"  resultMap="BaseResultMap">-->
+    <!--        select u.name as name,g.name as className from user u left join grade g on u.id = g.student_id  where u.sex = #{model.sex} and g.name = #{model.className}-->
+    <!--    </select>-->
+
+    <!--    &lt;!&ndash;根据用户ids遍历查询&ndash;&gt;-->
+    <!--    <select id="getUsersByIds"  resultMap="BaseResultMap">-->
+    <!--        select u.name as name , g.name as className from user u left join grade g on u.id = g.student_id-->
+    <!--        where 1=1-->
+    <!--        <if test="userIds.size() !=0">-->
+    <!--            and u.id in-->
+    <!--            <foreach collection="userIds" item="userId" open="(" separator="," close=")" >-->
+    <!--                #{userId}-->
+    <!--            </foreach>-->
+    <!--        </if>-->
+    <!--    </select>-->
+
+</mapper>

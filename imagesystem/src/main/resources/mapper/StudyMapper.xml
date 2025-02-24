@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ncu.imagesystem.mapper.StudyMapper">
+
+    <!-- 病人检查查询映射结果 -->
+    <resultMap id="PatientStudyMap" type="com.ncu.imagesystem.dto.StudyDTO">
+        <id column="patient_id" property="patientId" />
+        <result column="patient_name" property="patientName" />
+        <result column="patient_id_card_number" property="patientIdCardNumber" />
+        <result column="patient_gender" property="patientGender" />
+        <result column="patient_height" property="patientHeight" />
+        <result column="patient_weight" property="patientWeight" />
+        <result column="date_of_birth" property="dateOfBirth" />
+        <result column="phone_number" property="phoneNumber" />
+        <result column="telephone_number" property="telephoneNumber" />
+        <result column="fax_number" property="faxNumber" />
+        <result column="email" property="email" />
+        <result column="address" property="address" />
+        <result column="user_id" property="userId" />
+        <result column="patient_id_dcm" property="patientIdDcm" />
+        <result column="creator_id" property="creatorId" />
+        <result column="create_time" property="createTime" />
+        <collection property="studyList" javaType="ArrayList" ofType="com.ncu.imagesystem.entity.StudyEntity">
+            <id column="study_id" property="studyId" />
+            <result column="study_id_dcm" property="studyIdDcm" />
+            <result column="study_instance_uid" property="studyInstanceUid" />
+            <result column="study_date" property="studyDate" />
+            <result column="study_time" property="studyTime" />
+            <result column="accession_number" property="accessionNumber" />
+            <result column="modalities_in_study" property="modalitiesInStudy" />
+            <result column="body_part_examined" property="bodyPartExamined" />
+            <result column="study_description" property="studyDescription" />
+            <result column="patient_age" property="patientAge" />
+            <result column="patient_id_study" property="patientId" />
+            <result column="creator_id" property="creatorId" />
+            <result column="create_time" property="createTime" />
+        </collection>
+    </resultMap>
+
+    <!-- 检查序列查询映射结果 -->
+    <resultMap id="StudySeriesMap" type="com.ncu.imagesystem.dto.StudySeriesDTO">
+        <id column="study_id" property="studyId" />
+        <result column="study_id_dcm" property="studyIdDcm" />
+        <result column="study_instance_uid" property="studyInstanceUid" />
+        <result column="study_date" property="studyDate" />
+        <result column="study_time" property="studyTime" />
+        <result column="accession_number" property="accessionNumber" />
+        <result column="modalities_in_study" property="modalitiesInStudy" />
+        <result column="body_part_examined" property="bodyPartExamined" />
+        <result column="study_description" property="studyDescription" />
+        <result column="patient_age" property="patientAge" />
+        <result column="patient_id" property="patientId" />
+        <result column="creator_id" property="creatorId" />
+        <result column="create_time" property="createTime" />
+        <collection property="seriesList" javaType="ArrayList" ofType="com.ncu.imagesystem.entity.SeriesEntity">
+            <id column="series_id" property="seriesId" />
+            <result column="series_name" property="seriesName" />
+            <result column="series_equipment" property="seriesEquipment" />
+            <result column="series_format" property="seriesFormat" />
+            <result column="series_path" property="seriesPath" />
+            <result column="series_preview_path" property="seriesPreviewPath" />
+            <result column="series_count" property="seriesCount" />
+            <result column="series_check_part" property="seriesCheckPart" />
+            <result column="series_check_time" property="seriesCheckTime" />
+            <result column="patient_id_series" property="patientId" />
+            <result column="patient_name" property="patientName" />
+            <result column="creator_id" property="creatorId" />
+            <result column="creator_name" property="creatorName" />
+            <result column="create_time" property="createTime" />
+            <result column="series_status" property="seriesStatus" />
+<!--            <result column="is_deleted" property="isDeleted" />-->
+            <result column="series_number" property="seriesNumber" />
+            <result column="series_instance_uid" property="seriesInstanceUid" />
+            <result column="seriesModality" property="seriesModality" />
+            <result column="series_desc" property="seriesDesc" />
+            <result column="series_date" property="seriesDate" />
+            <result column="series_time" property="seriesTime" />
+            <result column="image_position" property="imagePosition" />
+            <result column="spacing_between_slices" property="spacingBetweenSlices" />
+            <result column="mr_acquisition_type" property="mrAcquisitionType" />
+            <result column="study_id_series" property="studyId" />
+            <result column="reader_view" property="readerView" />
+            <result column="doctor_view" property="doctorView" />
+            <result column="mark_series_preview_path" property="markSeriesPreviewPath" />
+            <result column="mark_series_name" property="markSeriesName" />
+            <result column="reader_view_id" property="readerViewId" />
+            <result column="reader_view_name" property="readerViewName" />
+            <result column="reader_view_time" property="readerViewTime" />
+            <result column="doctor_view_id" property="doctorViewId" />
+            <result column="doctor_view_name" property="doctorViewName" />
+            <result column="doctor_view_time" property="doctorViewTime" />
+        </collection>
+    </resultMap>
+
+    <!-- 序列图像查询映射结果 -->
+    <resultMap id="SeriesImageMap" type="com.ncu.imagesystem.dto.SeriesImageDTO">
+        <id column="series_id" property="seriesId" />
+        <result column="series_name" property="seriesName" />
+        <result column="series_equipment" property="seriesEquipment" />
+        <result column="series_format" property="seriesFormat" />
+        <result column="series_path" property="seriesPath" />
+        <result column="series_preview_path" property="seriesPreviewPath" />
+        <result column="series_count" property="seriesCount" />
+        <result column="series_check_part" property="seriesCheckPart" />
+        <result column="series_check_time" property="seriesCheckTime" />
+        <result column="patient_id" property="patientId" />
+        <result column="patient_name" property="patientName" />
+        <result column="creator_id" property="creatorId" />
+        <result column="creator_name" property="creatorName" />
+        <result column="create_time" property="createTime" />
+        <result column="series_status" property="seriesStatus" />
+<!--        <result column="is_deleted" property="isDeleted" />-->
+        <result column="series_number" property="seriesNumber" />
+        <result column="series_instance_uid" property="seriesInstanceUid" />
+        <result column="seriesModality" property="seriesModality" />
+        <result column="series_desc" property="seriesDesc" />
+        <result column="series_date" property="seriesDate" />
+        <result column="series_time" property="seriesTime" />
+        <result column="image_position" property="imagePosition" />
+        <result column="spacing_between_slices" property="spacingBetweenSlices" />
+        <result column="mr_acquisition_type" property="mrAcquisitionType" />
+        <result column="study_id" property="studyId" />
+        <result column="reader_view" property="readerView" />
+        <result column="doctor_view" property="doctorView" />
+        <result column="mark_series_preview_path" property="markSeriesPreviewPath" />
+        <result column="mark_series_name" property="markSeriesName" />
+        <result column="reader_view_id" property="readerViewId" />
+        <result column="reader_view_name" property="readerViewName" />
+        <result column="reader_view_time" property="readerViewTime" />
+        <result column="doctor_view_id" property="doctorViewId" />
+        <result column="doctor_view_name" property="doctorViewName" />
+        <result column="doctor_view_time" property="doctorViewTime" />
+        <collection property="imageList" javaType="ArrayList" ofType="com.ncu.imagesystem.entity.ImageEntity">
+            <id column="image_id" property="imageId" />
+            <result column="image_name" property="imageName" />
+            <result column="image_path" property="imagePath" />
+            <result column="type" property="type" />
+            <result column="series_id" property="seriesId" />
+            <result column="image_id_rel" property="imageIdRel" />
+            <result column="operate_id" property="operateId" />
+            <result column="operate_name" property="operateName" />
+            <result column="operate_time" property="operateTime" />
+            <result column="image_status" property="imageStatus" />
+            <result column="image_equipment" property="imageEquipment" />
+            <result column="image_format" property="imageFormat" />
+            <result column="image_desc" property="imageDesc" />
+            <result column="image_check_part" property="imageCheckPart" />
+            <result column="image_check_time" property="imageCheckTime" />
+            <result column="patient_id_single" property="patientId" />
+            <result column="patient_name_single" property="patientName" />
+<!--            <result column="is_deleted" property="isDeleted" />-->
+            <result column="image_position" property="imagePosition" />
+            <result column="image_orientation" property="imageOrientation" />
+            <result column="slice_thickness" property="sliceThickness" />
+            <result column="slice_location" property="sliceLocation" />
+            <result column="image_rows" property="imageRows" />
+            <result column="image_columns" property="imageColumns" />
+            <result column="pixel_spacing" property="pixelSpacing" />
+            <result column="bits_allocated" property="bitsAllocated" />
+            <result column="bits_stored" property="bitsStored" />
+            <result column="high_bit" property="highBit" />
+            <result column="pixel_representation" property="pixelRepresentation" />
+            <result column="window_center" property="windowCenter" />
+            <result column="window_width" property="windowWidth" />
+            <result column="rescale_intercept" property="rescaleIntercept" />
+            <result column="rescale_slope" property="rescaleSlope" />
+            <result column="rescale_type" property="rescaleType" />
+            <result column="image_type" property="imageType" />
+            <result column="sop_instance_uid" property="sopInstanceUid" />
+            <result column="content_date" property="contentDate" />
+            <result column="content_time" property="contentTime" />
+            <result column="image_number" property="imageNumber" />
+            <result column="samples_per_pixel" property="samplesPerPixel" />
+            <result column="photometric_interpretation" property="photometricInterpretation" />
+            <result column="mark_image_name" property="markImageName" />
+            <result column="mark_image_path" property="markImagePath" />
+            <result column="mark_image_desc" property="markImageDesc" />
+            <result column="creator_id" property="creatorId" />
+            <result column="create_time" property="createTime" />
+        </collection>
+    </resultMap>
+
+
+    <select id="countPatient" parameterType="com.ncu.imagesystem.dto.PatientStudyQuery" resultType="Long">
+        SELECT
+            COUNT(1)
+        FROM
+            (
+                SELECT DISTINCT
+                    p.patient_id
+                FROM
+                    patient p
+                RIGHT JOIN
+                    patient_department_relation pdr ON p.patient_id = pdr.patient_id
+                WHERE
+                    pdr.department_id in
+                <foreach collection="departmentIdList" item="id" open="(" separator="," close=")" >
+                    #{id}
+                </foreach>
+                <if test="patientName != null">
+                    and p.patient_name like CONCAT('%',#{patientName},'%')
+                </if>
+                <if test="patientGender != null">
+                    and p.patient_gender = #{patientGender}
+                </if>
+                <if test="dateOfBirth != null">
+                    and p.date_of_birth like CONCAT('%',#{dateOfBirth},'%')
+                </if>
+                <if test="phoneNumber != null">
+                    and p.phone_number like CONCAT('%',#{phoneNumber},'%')
+                </if>
+                <if test="email != null">
+                    and p.email like CONCAT('%',#{email},'%')
+                </if>
+                <if test="address != null">
+                    and p.address like CONCAT('%',#{address},'%')
+                </if>
+                <if test="dateOfBirthBegin != null">
+                    and p.date_of_birth &gt;= #{dateOfBirthBegin}
+                </if>
+                <if test="dateOfBirthEnd != null">
+                    and p.date_of_birth &lt;= #{dateOfBirthEnd}
+                </if>
+
+                ) a
+    </select>
+
+    <select id="getPatientStudyPageByDepartmentId" parameterType="com.ncu.imagesystem.dto.PatientStudyQuery" resultMap="PatientStudyMap">
+        SELECT *
+        FROM
+            (
+                select distinct(p.patient_id)
+                    patient_id,patient_name,patient_id_card_number,patient_gender,
+                    patient_weight,patient_height,date_of_birth,phone_number,telephone_number,
+                    fax_number,email,address,user_id,patient_id_dcm,creator_id,create_time
+                from
+                    patient p
+                RIGHT JOIN
+                    patient_department_relation pdr ON p.patient_id = pdr.patient_id
+                WHERE
+                    pdr.department_id IN
+                    <foreach collection="departmentIdList" item="id" open="(" separator="," close=")" >
+                        #{id}
+                    </foreach>
+                    <if test="patientName != null">
+                        and p.patient_name like CONCAT('%',#{patientName},'%')
+                    </if>
+                    <if test="patientGender != null">
+                        and p.patient_gender = #{patientGender}
+                    </if>
+                    <if test="dateOfBirth != null">
+                        and p.date_of_birth like CONCAT('%',#{dateOfBirth},'%')
+                    </if>
+                    <if test="phoneNumber != null">
+                        and p.phone_number like CONCAT('%',#{phoneNumber},'%')
+                    </if>
+                    <if test="email != null">
+                        and p.email like CONCAT('%',#{email},'%')
+                    </if>
+                     <if test="address != null">
+                        and p.address like CONCAT('%',#{address},'%')
+                    </if>
+                     <if test="dateOfBirthBegin != null">
+                        and p.date_of_birth &gt;= #{dateOfBirthBegin}
+                    </if>
+                    <if test="dateOfBirthEnd != null">
+                        and p.date_of_birth &lt;= #{dateOfBirthEnd}
+                    </if>
+                order by create_time desc
+                LIMIT #{current}, #{pageSize}
+            ) a
+        left join
+            (
+                select
+                    ps.study_id,study_id_dcm,study_instance_uid,study_date,study_time,
+                    accession_number,modalities_in_study,body_part_examined,study_description,
+                    patient_age,study_status,patient_id as patient_id_study,creator_id,create_time
+                from
+                    study ps
+                right join
+                    study_department_relation sdr ON ps.study_id = sdr.study_id
+                where
+                    sdr.department_id in
+                    <foreach collection="departmentIdList" item="id" open="(" separator="," close=")" >
+                        #{id}
+                    </foreach>
+            ) b
+        on a.patient_id = b.patient_id_study;
+    </select>
+
+    <select id="countStudy" parameterType="com.ncu.imagesystem.dto.StudySeriesQuery" resultType="Long">
+        SELECT
+            COUNT(1)
+        FROM
+            (
+                SELECT DISTINCT
+                    ps.study_id
+                FROM
+                    study ps
+                RIGHT JOIN
+                    study_department_relation sdr ON ps.study_id = sdr.study_id
+                WHERE
+                    sdr.department_id in
+                    <foreach collection="departmentIdList" item="id" open="(" separator="," close=")" >
+                        #{id}
+                    </foreach>
+                    <if test="studyDate != null">
+                        and ps.study_date like CONCAT('%',#{studyDate},'%')
+                    </if>
+                    <if test="studyTime != null">
+                        and ps.study_time like CONCAT('%',#{studyTime},'%')
+                    </if>
+                    <if test="patientAge != null">
+                        and ps.patient_age like CONCAT('%',#{patientAge},'%')
+                    </if>
+                    <if test="accessionNumber != null">
+                        and ps.accession_number like CONCAT('%',#{accessionNumber},'%')
+                    </if>
+                    <if test="bodyPartExamined != null">
+                        and ps.body_part_examined like CONCAT('%',#{bodyPartExamined},'%')
+                    </if>
+                    <if test="studyDescription != null">
+                        and ps.study_description &gt;= #{studyDescription}
+                    </if>
+                    <if test="dateOfStudyBegin != null">
+                        and ps.study_date &gt;= #{dateOfStudyBegin}
+                    </if>
+                    <if test="dateOfStudyEnd != null">
+                        and ps.study_date &lt;= #{dateOfStudyEnd}
+                    </if>
+                    <if test="patientAgeBegin != null">
+                        and ps.patient_age &gt;= #{patientAgeBegin}
+                    </if>
+                    <if test="patientAgeEnd != null">
+                        and ps.patient_age &lt;= #{patientAgeEnd}
+                    </if>
+                    <if test="patientId != null">
+                        and ps.patient_Id = #{patientId}
+                    </if>
+            ) a
+    </select>
+
+    <select id="getStudySeriesPageByDepartmentId" parameterType="com.ncu.imagesystem.dto.StudySeriesQuery" resultMap="StudySeriesMap">
+        SELECT *
+        FROM
+            (
+                select distinct(ps.study_id)
+                    study_id,study_id_dcm,study_instance_uid,study_date,study_time,
+                    accession_number,modalities_in_study,body_part_examined,study_description,
+                    patient_age,study_status,patient_id
+                from
+                    study ps
+                RIGHT JOIN
+                    study_department_relation sdr ON ps.study_id = sdr.study_id
+                WHERE
+                    sdr.department_id IN
+                    <foreach collection="departmentIdList" item="id" open="(" separator="," close=")" >
+                        #{id}
+                    </foreach>
+                    <if test="studyDate != null">
+                        and ps.study_date like CONCAT('%',#{studyDate},'%')
+                    </if>
+                    <if test="studyTime != null">
+                        and ps.study_time like CONCAT('%',#{studyTime},'%')
+                    </if>
+                    <if test="patientAge != null">
+                        and ps.patient_age like CONCAT('%',#{patientAge},'%')
+                    </if>
+                    <if test="accessionNumber != null">
+                        and ps.accession_number like CONCAT('%',#{accessionNumber},'%')
+                    </if>
+                    <if test="bodyPartExamined != null">
+                        and ps.body_part_examined like CONCAT('%',#{bodyPartExamined},'%')
+                    </if>
+                    <if test="studyDescription != null">
+                        and ps.study_description like CONCAT('%',#{studyDescription},'%')
+                    </if>
+                    <if test="dateOfStudyBegin != null">
+                        and ps.study_date &gt;= #{dateOfStudyBegin}
+                    </if>
+                    <if test="dateOfStudyEnd != null">
+                        and ps.study_date &lt;= #{dateOfStudyEnd}
+                    </if>
+                    <if test="patientAgeBegin != null">
+                        and ps.patient_age &gt;= #{patientAgeBegin}
+                    </if>
+                    <if test="patientAgeEnd != null">
+                        and ps.patient_age &lt;= #{patientAgeEnd}
+                    </if>
+                    <if test="patientId != null">
+                        and ps.patient_Id = #{patientId}
+                    </if>
+                order by create_time desc
+                LIMIT #{current}, #{pageSize}
+            ) a
+        left join
+            (
+                select
+                    im.series_id,series_name,series_equipment,series_format,series_path,series_preview_path,
+        series_count,series_check_part,series_check_time,patient_id as patient_id_series,patient_name,
+                    creator_id,creator_name,create_time,series_status,series_number,series_instance_uid,
+                    series_modality,series_desc,series_date,series_time,image_position,spacing_between_slices,
+                    mr_acquisition_type,study_id as study_id_series,reader_view,doctor_view,
+                    mark_series_preview_path,mark_series_name,reader_view_id,reader_view_name,
+                    reader_view_time,doctor_view_id,doctor_view_name,doctor_view_time
+                from
+                    series im
+                right join
+                series_department_relation idr ON im.series_id = idr.series_id
+                where
+                    is_deleted = 0 and idr.department_id in
+                    <foreach collection="departmentIdList" item="id" open="(" separator="," close=")" >
+                        #{id}
+                    </foreach>
+            ) b
+        on a.study_id = b.study_id_series;
+    </select>
+
+    <select id="countSeries" parameterType="com.ncu.imagesystem.dto.SeriesImageQuery" resultType="Long">
+        SELECT
+            COUNT(1)
+        FROM
+            (
+                SELECT DISTINCT
+                    im.series_id
+                FROM
+                    series im
+                RIGHT JOIN
+                    series_department_relation idr ON im.series_id = idr.series_id
+                WHERE
+                    is_deleted = 0 and idr.department_id in
+                    <foreach collection="departmentIdList" item="id" open="(" separator="," close=")" >
+                        #{id}
+                    </foreach>
+                    <if test="seriesName != null">
+                        and im.series_name like CONCAT('%',#{seriesName},'%')
+                    </if>
+                    <if test="seriesFormat != null">
+                        and im.series_format like CONCAT('%',#{seriesFormat},'%')
+                    </if>
+                    <if test="seriesCount != null">
+                        and im.series_count like CONCAT('%',#{seriesCount},'%')
+                    </if>
+                    <if test="patientName != null">
+                        and im.patient_name like CONCAT('%',#{patientName},'%')
+                    </if>
+                    <if test="seriesDate != null">
+                        and im.series_date like CONCAT('%',#{seriesDate},'%')
+                    </if>
+                    <if test="seriesTime != null">
+                        and im.series_time like CONCAT('%',#{seriesTime},'%')
+                    </if>
+                    <if test="seriesDesc != null">
+                        and im.series_desc like CONCAT('%',#{seriesDesc},'%')
+                    </if>
+                    <if test="seriesDateBegin != null">
+                        and im.series_date &gt;= #{seriesDateBegin}
+                    </if>
+                    <if test="seriesDateEnd != null">
+                        and im.series_date &lt;= #{seriesDateEnd}
+                    </if>
+                    <if test="patientId != null">
+                        and im.patient_Id = #{patientId}
+                    </if>
+                    <if test="studyId != null">
+                        and im.study_id = #{studyId}
+                    </if>
+            ) a
+    </select>
+
+    <select id="getSeriesImagePageByDepartmentId" parameterType="com.ncu.imagesystem.dto.SeriesImageQuery" resultMap="SeriesImageMap">
+        SELECT *
+        FROM
+            (
+                select distinct(im.series_id)
+                    series_id,series_name,series_equipment,series_format,series_path,series_preview_path,
+                    series_count,series_check_part,series_check_time,patient_id,patient_name,
+                    creator_id,creator_name,create_time,series_status,series_number,series_instance_uid,
+                    series_modality,series_desc,series_date,series_time,image_position,spacing_between_slices,
+                    mr_acquisition_type,study_id,reader_view,doctor_view,
+                    mark_series_preview_path,mark_series_name,reader_view_id,reader_view_name,
+                    reader_view_time,doctor_view_id,doctor_view_name,doctor_view_time
+                from
+                    series im
+                RIGHT JOIN
+                    series_department_relation idr ON im.series_id = idr.series_id
+                WHERE
+                    is_deleted = 0 and idr.department_id IN
+                    <foreach collection="departmentIdList" item="id" open="(" separator="," close=")" >
+                        #{id}
+                    </foreach>
+                    <if test="seriesName != null">
+                        and im.series_name like CONCAT('%',#{seriesName},'%')
+                    </if>
+                    <if test="seriesFormat != null">
+                        and im.series_format like CONCAT('%',#{seriesFormat},'%')
+                    </if>
+                    <if test="seriesCount != null">
+                        and im.series_count like CONCAT('%',#{seriesCount},'%')
+                    </if>
+                    <if test="patientName != null">
+                        and im.patient_name like CONCAT('%',#{patientName},'%')
+                    </if>
+                    <if test="seriesDate != null">
+                        and im.series_date like CONCAT('%',#{seriesDate},'%')
+                    </if>
+                    <if test="seriesTime != null">
+                        and im.series_time like CONCAT('%',#{seriesTime},'%')
+                    </if>
+                    <if test="seriesDesc != null">
+                        and im.series_desc like CONCAT('%',#{seriesDesc},'%')
+                    </if>
+                    <if test="seriesDateBegin != null">
+                        and im.series_date &gt;= #{seriesDateBegin}
+                    </if>
+                    <if test="seriesDateEnd != null">
+                        and im.series_date &lt;= #{seriesDateEnd}
+                    </if>
+                    <if test="patientId != null">
+                        and im.patient_Id = #{patientId}
+                    </if>
+                    <if test="studyId != null">
+                        and im.study_id = #{studyId}
+                    </if>
+                order by create_time desc
+                LIMIT #{current}, #{pageSize}
+            ) a
+        left join
+            (
+                select
+                    image_id,image_name,image_path,type,series_id as image_id_single,
+                    image_id_rel,operate_id,operate_name,operate_time,image_status,
+                    image_equipment,image_format,image_desc,
+                    image_check_part,image_check_time,patient_id as patient_id_single,
+                    patient_name as patient_name_single,image_position,image_orientation,
+                    slice_thickness,slice_location,image_rows,image_columns,pixel_spacing,
+                    bits_allocated,bits_stored,high_bit,pixel_representation,window_center,window_width,
+                    rescale_intercept,rescale_slope,rescale_type,image_type,sop_instance_uid,
+                    content_date,content_time,image_number,samples_per_pixel,photometric_interpretation,
+                    mark_image_name,mark_image_path,mark_image_desc,creator_id,create_time
+                from
+                    image
+                where is_deleted = 0
+            ) b
+        on a.series_id = b.image_id_single;
+    </select>
+
+</mapper>

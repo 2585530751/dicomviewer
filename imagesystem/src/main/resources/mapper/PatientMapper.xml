@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ncu.imagesystem.mapper.PatientMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.ncu.imagesystem.entity.PatientEntity">
+        <result column="patient_id" property="patientId" />
+        <result column="patient_name" property="patientName" />
+        <result column="patient_id_card_number" property="patientIdCardNumber" />
+        <result column="patient_gender" property="patientGender" />
+        <result column="patient_height" property="patientHeight" />
+        <result column="patient_weight" property="patientWeight" />
+        <result column="date_of_birth" property="dateOfBirth" />
+        <result column="phone_number" property="phoneNumber" />
+        <result column="telephone_number" property="telephoneNumber" />
+        <result column="fax_number" property="faxNumber" />
+        <result column="email" property="email" />
+        <result column="address" property="address" />
+    </resultMap>
+
+    <!--根据Id查询-->
+    <select id="getPatientById" parameterType="Integer" resultMap="BaseResultMap">
+        select * from patient where patient_id = #{patientId}
+    </select>
+
+    <!--根据性别和班级名称查询-->
+<!--    <select id="getUsers"  resultMap="BaseResultMap">-->
+<!--        select u.name as name,g.name as className from user u left join grade g on u.id = g.student_id  where u.sex = #{model.sex} and g.name = #{model.className}-->
+<!--    </select>-->
+
+<!--    &lt;!&ndash;根据用户ids遍历查询&ndash;&gt;-->
+<!--    <select id="getUsersByIds"  resultMap="BaseResultMap">-->
+<!--        select u.name as name , g.name as className from user u left join grade g on u.id = g.student_id-->
+<!--        where 1=1-->
+<!--        <if test="userIds.size() !=0">-->
+<!--            and u.id in-->
+<!--            <foreach collection="userIds" item="userId" open="(" separator="," close=")" >-->
+<!--                #{userId}-->
+<!--            </foreach>-->
+<!--        </if>-->
+<!--    </select>-->
+
+</mapper>

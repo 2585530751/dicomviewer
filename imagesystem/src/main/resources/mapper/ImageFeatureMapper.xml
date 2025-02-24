@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ncu.imagesystem.mapper.ImageFeatureMapper">
+
+    <resultMap id="ResultFeatureMap" type="com.ncu.imagesystem.dto.ModelResultWithImageFeatureDTO">
+        <id column="model_res_id" property="modelResId" />
+        <result column="series_id" property="seriesId" />
+        <result column="image_id" property="imageId" />
+        <result column="creator_id" property="creatorId" />
+        <result column="creator_name" property="creatorName" />
+        <result column="create_time" property="createTime" />
+        <result column="res_data" property="resData" />
+        <result column="model_id" property="modelId" />
+        <association property="imageFeature" javaType="com.ncu.imagesystem.entity.ImageFeatureEntity">
+            <id column="feature_id" property="featureId" />
+            <result column="model_res_id" property="modelResId" />
+            <result column="file_name" property="file_name" />
+            <result column="original_firstorder_10Percentile" property="original_firstorder_10Percentile" />
+            <result column="original_firstorder_90Percentile" property="original_firstorder_90Percentile" />
+            <result column="original_firstorder_Energy" property="original_firstorder_Energy" />
+            <result column="original_firstorder_Entropy" property="original_firstorder_Entropy" />
+            <result column="original_firstorder_InterquartileRange" property="original_firstorder_InterquartileRange" />
+            <result column="original_firstorder_Kurtosis" property="original_firstorder_Kurtosis" />
+            <result column="original_firstorder_Maximum" property="original_firstorder_Maximum" />
+            <result column="original_firstorder_MeanAbsoluteDeviation" property="original_firstorder_MeanAbsoluteDeviation" />
+            <result column="original_firstorder_Mean" property="original_firstorder_Mean" />
+            <result column="original_firstorder_Median" property="original_firstorder_Median" />
+            <result column="original_firstorder_Minimum" property="original_firstorder_Minimum" />
+            <result column="original_firstorder_Range" property="original_firstorder_Range" />
+            <result column="original_firstorder_RobustMeanAbsoluteDeviation" property="original_firstorder_RobustMeanAbsoluteDeviation" />
+            <result column="original_firstorder_RootMeanSquared" property="original_firstorder_RootMeanSquared" />
+            <result column="original_firstorder_Skewness" property="original_firstorder_Skewness" />
+            <result column="original_firstorder_TotalEnergy" property="original_firstorder_TotalEnergy" />
+            <result column="original_firstorder_Uniformity" property="original_firstorder_Uniformity" />
+            <result column="original_firstorder_Variance" property="original_firstorder_Variance" />
+        </association>
+    </resultMap>
+
+    <insert id="saveOrUpdateBatch" parameterType="java.util.List">
+        insert into image_feature
+            (
+                model_res_id, file_name, original_firstorder_10Percentile,
+                original_firstorder_90Percentile,original_firstorder_Energy,original_firstorder_Entropy,
+                original_firstorder_InterquartileRange,original_firstorder_Kurtosis,original_firstorder_Maximum,
+                original_firstorder_MeanAbsoluteDeviation,original_firstorder_Mean,original_firstorder_Median,
+                original_firstorder_Minimum,original_firstorder_Range,original_firstorder_RobustMeanAbsoluteDeviation,
+                original_firstorder_RootMeanSquared,original_firstorder_Skewness,original_firstorder_TotalEnergy,
+                original_firstorder_Uniformity,original_firstorder_Variance
+            )
+        VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+                #{item.modelResId},#{item.file_name},#{item.original_firstorder_10Percentile},
+                #{item.original_firstorder_90Percentile},#{item.original_firstorder_Energy},#{item.original_firstorder_Entropy},
+                #{item.original_firstorder_InterquartileRange},#{item.original_firstorder_Kurtosis},#{item.original_firstorder_Maximum},
+                #{item.original_firstorder_MeanAbsoluteDeviation},#{item.original_firstorder_Mean},#{item.original_firstorder_Median},
+                #{item.original_firstorder_Minimum},#{item.original_firstorder_Range},#{item.original_firstorder_RobustMeanAbsoluteDeviation},
+                #{item.original_firstorder_RootMeanSquared},#{item.original_firstorder_Skewness},#{item.original_firstorder_TotalEnergy},
+                #{item.original_firstorder_Uniformity},#{item.original_firstorder_Variance}
+            )
+        </foreach>
+        ON DUPLICATE KEY UPDATE
+            file_name = VALUES(file_name),
+            original_firstorder_10Percentile = VALUES(original_firstorder_10Percentile),
+            original_firstorder_90Percentile = VALUES(original_firstorder_90Percentile),
+            original_firstorder_Energy = VALUES(original_firstorder_Energy),
+            original_firstorder_Entropy = VALUES(original_firstorder_Entropy),
+            original_firstorder_InterquartileRange = VALUES(original_firstorder_InterquartileRange),
+            original_firstorder_Kurtosis = VALUES(original_firstorder_Kurtosis),
+            original_firstorder_Maximum = VALUES(original_firstorder_Maximum),
+            original_firstorder_MeanAbsoluteDeviation = VALUES(original_firstorder_MeanAbsoluteDeviation),
+            original_firstorder_Mean = VALUES(original_firstorder_Mean),
+            original_firstorder_Median = VALUES(original_firstorder_Median),
+            original_firstorder_Minimum = VALUES(original_firstorder_Minimum),
+            original_firstorder_Range = VALUES(original_firstorder_Range),
+            original_firstorder_RobustMeanAbsoluteDeviation = VALUES(original_firstorder_RobustMeanAbsoluteDeviation),
+            original_firstorder_RootMeanSquared = VALUES(original_firstorder_RootMeanSquared),
+            original_firstorder_Skewness = VALUES(original_firstorder_Skewness),
+            original_firstorder_TotalEnergy = VALUES(original_firstorder_TotalEnergy),
+            original_firstorder_Uniformity = VALUES(original_firstorder_Uniformity),
+            original_firstorder_Variance = VALUES(original_firstorder_Variance)
+    </insert>
+
+    <select id="getModelResultWithImageFeatureList" parameterType="com.ncu.imagesystem.dto.ModelResultWithImageFeatureQuery" resultMap="ResultFeatureMap">
+        select
+            series_id,image_id,creator_id,creator_name,create_time,res_data,model_id, i.*
+        from
+            model_result ms
+        left join
+            image_feature i on ms.model_res_id = i.model_res_id
+        where
+            ms.model_id = #{modelId}
+        and
+            ms.series_id = #{seriesId}
+        and
+            ms.creator_id = #{creatorId}
+        <if test="imageId != null">
+            and ms.image_id = #{imageId}
+        </if>
+    </select>
+</mapper>
